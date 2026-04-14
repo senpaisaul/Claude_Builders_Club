@@ -19,6 +19,7 @@ When invoked, you coordinate a network of specialized agents that independently 
 | DevOps      | `/devops`      | Produces Dockerfiles, CI/CD configs, nginx, env templates       |
 | Test        | `/test`        | Generates unit, integration, and e2e test suites                |
 | Reviewer    | `/review`      | Validates coherence across all layers, produces final report    |
+| Publish     | *(auto)*       | Creates GitHub repo via MCP, commits and pushes workspace       |
 
 ---
 
@@ -46,8 +47,10 @@ Each agent appends its completion status to `blueprint.json` under a `"status"` 
     "database":  "complete",
     "devops":    "complete",
     "tests":     "complete",
-    "review":    "complete"
-  }
+    "review":    "complete",
+    "publish":   "complete"
+  },
+  "repo_url": "https://github.com/<owner>/<app-name>"
 }
 ```
 
@@ -139,9 +142,12 @@ User: /build <prompt>
            ▼ Phase 4 — Sequential
       [Reviewer]
            │
+           ▼ Phase 5 — Sequential
+      [Publish] ──────────────────► GitHub repo (via GitHub MCP)
+           │
            ▼
     workspace/REVIEW.md
-    (complete application)
+    (complete application + public repo URL)
 ```
 
 ---
